@@ -5,9 +5,6 @@ namespace MS.Identity.API.Models;
 public class User
 {
     [Required(ErrorMessage = "This field {0} is mandatory")]
-    public string Name { get; set; }
-
-    [Required(ErrorMessage = "This field {0} is mandatory")]
     [EmailAddress(ErrorMessage = "Invalid Email")]
     public string Email { get; set; }
 
