@@ -1,9 +1,8 @@
 ﻿using MotorcycleStore.WebApp.MVC.Models;
-using System.Text.Json;
 
 namespace MotorcycleStore.WebApp.MVC.Services;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationService : Service, IAuthenticationService
 {
     private readonly HttpClient _httpClient;
 
@@ -16,27 +15,29 @@ public class AuthenticationService : IAuthenticationService
     {
         var response = await _httpClient.PostAsJsonAsync("https://localhost:44306/api/auth/login", userViewModel);
 
-        var options = new JsonSerializerOptions
+        if (!TryError(response))
         {
-            PropertyNameCaseInsensitive = true
+            return new UserResponseLogin
+            {
+                ResponseResult = await DeserializeObjectResponse<ResponseResult>(response)
+            };
         };
 
-        var result = JsonSerializer.Deserialize<UserResponseLogin>(await response.Content.ReadAsStringAsync(), options);
-
-        return result;
+        return await DeserializeObjectResponse<UserResponseLogin>(response); ;
     }
 
     public async Task<UserResponseLogin> Register(UserViewModel userViewModel)
     {
         var response = await _httpClient.PostAsJsonAsync("https://localhost:44306/api/auth/create", userViewModel);
 
-        var options = new JsonSerializerOptions
+        if (!TryError(response))
         {
-            PropertyNameCaseInsensitive = true
+            return new UserResponseLogin
+            {
+                ResponseResult = await DeserializeObjectResponse<ResponseResult>(response)
+            };
         };
 
-        var result = JsonSerializer.Deserialize<UserResponseLogin>(await response.Content.ReadAsStringAsync(), options);
-
-        return result;
+        return await DeserializeObjectResponse<UserResponseLogin>(response);
     }
 }

@@ -8,7 +8,7 @@ using IAuthenticationService = MotorcycleStore.WebApp.MVC.Services.IAuthenticati
 
 namespace MotorcycleStore.WebApp.MVC.Controllers;
 
-public class IdentityController : Controller
+public class IdentityController : MainController
 {
     private readonly IAuthenticationService _authenticationService;
 
@@ -32,6 +32,8 @@ public class IdentityController : Controller
 
         var response = await _authenticationService.Register(userViewModel);
 
+        if (ResponseHasErrors(response.ResponseResult)) return View(userViewModel);
+
         await DoLogin(response);
 
         return RedirectToAction("Index", "Home");
@@ -51,6 +53,8 @@ public class IdentityController : Controller
         if(!ModelState.IsValid) return View(userViewModel);
 
         var response = await _authenticationService.Login(userViewModel);
+
+        if (ResponseHasErrors(response.ResponseResult)) return View(userViewModel);
 
         await DoLogin(response);
 

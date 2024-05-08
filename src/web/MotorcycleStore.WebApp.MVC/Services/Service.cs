@@ -1,11 +1,11 @@
-﻿using System.Text.Json;
-using System.Text;
+﻿using MotorcycleStore.WebApp.MVC.Extensions;
+using System.Text.Json;
 
 namespace MotorcycleStore.WebApp.MVC.Services;
 
 public abstract class Service
 {
-    protected async Task<T> DeserializarObjetoResponse<T>(HttpResponseMessage responseMessage)
+    protected async Task<T> DeserializeObjectResponse<T>(HttpResponseMessage responseMessage)
     {
         var options = new JsonSerializerOptions
         {
@@ -15,7 +15,7 @@ public abstract class Service
         return JsonSerializer.Deserialize<T>(await responseMessage.Content.ReadAsStringAsync(), options);
     }
 
-    protected bool TratarErrosResponse(HttpResponseMessage response)
+    protected bool TryError(HttpResponseMessage response)
     {
         switch ((int)response.StatusCode)
         {
@@ -23,8 +23,7 @@ public abstract class Service
             case 403:
             case 404:
             case 500:
-                //throw new CustomHttpRequestException(response.StatusCode);
-
+                throw new CustomHttpRequestException(response.StatusCode);
             case 400:
                 return false;
         }
