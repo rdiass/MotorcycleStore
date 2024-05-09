@@ -1,18 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MotorcycleStore.WebApp.MVC.Models;
-using System.Diagnostics;
 
 namespace MotorcycleStore.WebApp.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -23,10 +15,37 @@ namespace MotorcycleStore.WebApp.MVC.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("error/{id:length(3,3)}")]
+        public IActionResult Error(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = new ErrorViewModel
+            {
+                ErrorCode = id,
+                Title = "Error",
+                Message = "An error has occurred! Please try again later or contact our support."
+            };
+
+            if (id == 500)
+            {
+                model.Title = "Oops!";
+                model.Message = "Something went wrong! Please try again later.";
+            }
+            else if (id == 404)
+            {
+                model.Title = "Not found";
+                model.Message = "The page you are looking for does not exist!";
+            }
+            else if (id == 403)
+            {
+                model.Title = "Access Denied";
+                model.Message = "You do not have permission to do this.";
+            }
+            else
+            {
+                return StatusCode(404);
+            }
+
+            return View("Error", model);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using MotorcycleStore.WebApp.MVC.Models;
+﻿using Microsoft.Extensions.Options;
+using MotorcycleStore.WebApp.MVC.Extensions;
+using MotorcycleStore.WebApp.MVC.Models;
 
 namespace MotorcycleStore.WebApp.MVC.Services;
 
@@ -6,14 +8,15 @@ public class AuthenticationService : Service, IAuthenticationService
 {
     private readonly HttpClient _httpClient;
 
-    public AuthenticationService(HttpClient httpClient)
+    public AuthenticationService(HttpClient httpClient, IOptions<AppSettings> appSettings)
     {
+        httpClient.BaseAddress = new Uri(appSettings.Value.AuthenticationUrl);
         _httpClient = httpClient;
     }
 
     public async Task<UserResponseLogin> Login(UserLoginViewModel userViewModel)
     {
-        var response = await _httpClient.PostAsJsonAsync("https://localhost:44306/api/auth/login", userViewModel);
+        var response = await _httpClient.PostAsJsonAsync("login", userViewModel);
 
         if (!TryError(response))
         {
@@ -28,7 +31,7 @@ public class AuthenticationService : Service, IAuthenticationService
 
     public async Task<UserResponseLogin> Register(UserViewModel userViewModel)
     {
-        var response = await _httpClient.PostAsJsonAsync("https://localhost:44306/api/auth/create", userViewModel);
+        var response = await _httpClient.PostAsJsonAsync("create", userViewModel);
 
         if (!TryError(response))
         {

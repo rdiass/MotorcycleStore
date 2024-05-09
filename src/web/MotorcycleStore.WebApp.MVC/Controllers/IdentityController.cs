@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using MotorcycleStore.WebApp.MVC.Extensions;
 using MotorcycleStore.WebApp.MVC.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using IAuthenticationService = MotorcycleStore.WebApp.MVC.Services.IAuthenticationService;
 
@@ -28,7 +30,7 @@ public class IdentityController : MainController
     [Route("new-account")]
     public async Task<IActionResult> Register(UserViewModel userViewModel)
     {
-        if(!ModelState.IsValid) return View(userViewModel);
+        if (!ModelState.IsValid) return View(userViewModel);
 
         var response = await _authenticationService.Register(userViewModel);
 
@@ -41,15 +43,18 @@ public class IdentityController : MainController
 
     [HttpGet]
     [Route("login")]
-    public IActionResult Login()
+    public IActionResult Login(string? returnUrl = null)
     {
+        ViewData["ReturnUrl"] = returnUrl;
         return View();
     }
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login(UserLoginViewModel userViewModel)
+    public async Task<IActionResult> Login(UserLoginViewModel userViewModel, string? returnUrl = null)
     {
+        ViewData["ReturnUrl"] = returnUrl;
+
         if(!ModelState.IsValid) return View(userViewModel);
 
         var response = await _authenticationService.Login(userViewModel);
@@ -57,6 +62,8 @@ public class IdentityController : MainController
         if (ResponseHasErrors(response.ResponseResult)) return View(userViewModel);
 
         await DoLogin(response);
+
+        if (!string.IsNullOrEmpty(returnUrl)) return LocalRedirect(returnUrl);
 
         return RedirectToAction("Index", "Home");
     }
@@ -66,7 +73,7 @@ public class IdentityController : MainController
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Login");
     }
 
     private async Task DoLogin(UserResponseLogin response)

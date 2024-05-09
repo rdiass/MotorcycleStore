@@ -1,26 +1,29 @@
-﻿namespace MotorcycleStore.WebApp.MVC.Configuration;
+﻿using MotorcycleStore.WebApp.MVC.Extensions;
+
+namespace MotorcycleStore.WebApp.MVC.Configuration;
 
 public static class WebAppConfig
 {
-    public static void AddMvcConfiguration(this IServiceCollection services)
+    public static void AddMvcConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<AppSettings>(configuration);
         services.AddControllersWithViews();
     }
 
     public static void UseMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
     {
-        // Configure the HTTP request pipeline.
         if (!env.IsDevelopment())
         {
-            app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseExceptionHandler("/error/500");
+            app.UseStatusCodePagesWithRedirects("/error/{0}");
             app.UseHsts();
         }
-
+        
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();        
         app.UseIdentityConfiguration();
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseEndpoints(endpoints =>
         {
