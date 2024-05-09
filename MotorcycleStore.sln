@@ -29,7 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{95B3C0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotorcycleStore.Identity.API", "src\services\MotorcycleStore.Identity.API\MotorcycleStore.Identity.API.csproj", "{30090150-8D93-491F-9A8F-EEEADF754D7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorcycleStore.WebApp.MVC", "src\web\MotorcycleStore.WebApp.MVC\MotorcycleStore.WebApp.MVC.csproj", "{C67395BE-A9D0-407F-803C-7A97CFD38F28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotorcycleStore.WebApp.MVC", "src\web\MotorcycleStore.WebApp.MVC\MotorcycleStore.WebApp.MVC.csproj", "{C67395BE-A9D0-407F-803C-7A97CFD38F28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{A24758B9-68A5-440D-9253-0E48D25ED47F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorcycleStore.Catalog.API", "src\services\MotorcycleStore.Catalog.API\MotorcycleStore.Catalog.API.csproj", "{E11500F3-F081-4C21-8DA2-F40C91F08ACA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorcycleStore.Core", "src\building blocks\MotorcycleStore.Core\MotorcycleStore.Core.csproj", "{4242CDCA-3226-459C-9B1F-E5C5985051FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,14 @@ Global
 		{C67395BE-A9D0-407F-803C-7A97CFD38F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67395BE-A9D0-407F-803C-7A97CFD38F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67395BE-A9D0-407F-803C-7A97CFD38F28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E11500F3-F081-4C21-8DA2-F40C91F08ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E11500F3-F081-4C21-8DA2-F40C91F08ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E11500F3-F081-4C21-8DA2-F40C91F08ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E11500F3-F081-4C21-8DA2-F40C91F08ACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4242CDCA-3226-459C-9B1F-E5C5985051FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4242CDCA-3226-459C-9B1F-E5C5985051FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4242CDCA-3226-459C-9B1F-E5C5985051FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4242CDCA-3226-459C-9B1F-E5C5985051FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +77,9 @@ Global
 		{95B3C010-7597-4479-856E-28180901F582} = {7BCA9660-7B90-48B0-8ABE-2E90189209A6}
 		{30090150-8D93-491F-9A8F-EEEADF754D7F} = {B6E0E824-7B17-4038-A3A1-64EDCC01FC36}
 		{C67395BE-A9D0-407F-803C-7A97CFD38F28} = {6CDA1030-E74B-4069-964C-194D82837494}
+		{A24758B9-68A5-440D-9253-0E48D25ED47F} = {7BCA9660-7B90-48B0-8ABE-2E90189209A6}
+		{E11500F3-F081-4C21-8DA2-F40C91F08ACA} = {A24758B9-68A5-440D-9253-0E48D25ED47F}
+		{4242CDCA-3226-459C-9B1F-E5C5985051FE} = {ED6CD2D4-C1ED-4474-82FD-831C1236ECC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80AE2BC3-7282-4943-B30B-684B199E3C7F}
