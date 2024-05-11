@@ -35,7 +35,7 @@ public class AspNetUser : IUser
 
     public string GetUserToken()
     {
-        return IsAuthenticated() ? _accessor.HttpContext.User.GetUserId() : string.Empty;
+        return IsAuthenticated() ? _accessor.HttpContext.User.GetUserToken() : string.Empty;
     }
 
     public bool HasRole(string role)

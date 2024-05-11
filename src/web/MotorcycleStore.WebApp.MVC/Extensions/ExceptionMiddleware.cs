@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Polly.CircuitBreaker;
+using System.Net;
 
 namespace MotorcycleStore.WebApp.MVC.Extensions;
 
@@ -14,18 +15,27 @@ public class ExceptionMiddleware(RequestDelegate next)
         }
         catch (CustomHttpRequestException ex)
         {
-            HandleExceptionAsync(httpContext, ex);
+            HandleExceptionAsync(httpContext, ex.StatusCode);
+        }
+        catch(BrokenCircuitException)
+        {
+            HandleExceptionAsync(httpContext);
         }
     }
 
-    private static void HandleExceptionAsync(HttpContext context, CustomHttpRequestException exception)
+    private static void HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode)
     {
-        if (exception.StatusCode == HttpStatusCode.Unauthorized)
+        if (statusCode == HttpStatusCode.Unauthorized)
         {
             context.Response.Redirect($"/login?ReturnUrl={context.Request.Path}");
             return;
         }
 
-        context.Response.StatusCode = (int)exception.StatusCode;
+        context.Response.StatusCode = (int)statusCode;
+    }
+
+    private static void HandleExceptionAsync(HttpContext context)
+    {
+        context.Response.Redirect("/system-unavailable");
     }
 }

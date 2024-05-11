@@ -47,5 +47,18 @@ namespace MotorcycleStore.WebApp.MVC.Controllers
 
             return View("Error", model);
         }
+
+        [Route("system-unavailable")]
+        public IActionResult ServiceUnavailable()
+        {
+            var modelErro = new ErrorViewModel
+            {
+                Message = "The service is temporary unavailable.",
+                Title = "Service unavailable.",
+                ErrorCode = 500
+            };
+
+            return View("Error", modelErro);
+        }
     }
 }

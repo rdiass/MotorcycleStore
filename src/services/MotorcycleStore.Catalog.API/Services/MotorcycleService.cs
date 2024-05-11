@@ -1,39 +1,30 @@
-﻿using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+﻿using MotorcycleStore.Catalog.API.Data;
 using MotorcycleStore.Catalog.API.Models;
-using MotorcycleStore.Catalog.Settings;
 
 namespace MotorcycleStore.Catalog.API.Services;
 
 public class MotorcycleService
 {
-    private readonly IMongoCollection<Motorcycle> _motorcyclesCollection;
+    private readonly IMotorcycleRepository _motorcycleRepository;
 
     public MotorcycleService(
-        IOptions<CatalogDatabaseSettings> catalogDatabaseSettings)
+        IMotorcycleRepository motorcycleRepository)
     {
-        var mongoClient = new MongoClient(
-            catalogDatabaseSettings.Value.ConnectionString);
-
-        var mongoDatabase = mongoClient.GetDatabase(
-            catalogDatabaseSettings.Value.DatabaseName);
-
-        _motorcyclesCollection = mongoDatabase.GetCollection<Motorcycle>(
-            catalogDatabaseSettings.Value.MotorcyclesCollectionName);
+        _motorcycleRepository = motorcycleRepository;
     }
 
     public async Task<List<Motorcycle>> GetAsync() =>
-        await _motorcyclesCollection.Find(_ => true).ToListAsync();
+        await _motorcycleRepository.GetAsync();
 
     public async Task<Motorcycle?> GetAsync(string id) =>
-        await _motorcyclesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        await _motorcycleRepository.GetAsync(id);
 
     public async Task CreateAsync(Motorcycle newBook) =>
-        await _motorcyclesCollection.InsertOneAsync(newBook);
+        await _motorcycleRepository.CreateAsync(newBook);
 
     public async Task UpdateAsync(string id, Motorcycle updatedMotorcycle) =>
-        await _motorcyclesCollection.ReplaceOneAsync(x => x.Id == id, updatedMotorcycle);
+        await _motorcycleRepository.UpdateAsync(id, updatedMotorcycle);
 
     public async Task RemoveAsync(string id) =>
-        await _motorcyclesCollection.DeleteOneAsync(x => x.Id == id);
+        await _motorcycleRepository.RemoveAsync(id);
 }

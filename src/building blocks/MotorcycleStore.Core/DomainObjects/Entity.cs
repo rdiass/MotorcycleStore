@@ -1,8 +1,13 @@
-﻿namespace MotorcycleStore.Core.DomainObjects;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+
+namespace MotorcycleStore.Core.DomainObjects;
 
 public abstract class Entity
 {
-    public Guid Id { get; set; }
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string? Id { get; set; }
 
     public override bool Equals(object obj)
     {

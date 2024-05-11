@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AspNetCore.Identity.MongoDbCore.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MotorcycleStore.Identity.API.Controllers;
 using MotorcycleStore.Identity.API.Helpers;
 using MotorcycleStore.Identity.API.Models;
 using MS.Identity.API.Models;
+using System.Security.Claims;
 
 namespace MS.Identity.API.Controllers;
 
@@ -30,7 +32,23 @@ public class AuthController : MainController
         {
             UserName = user.Email,
             Email = user.Email,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            Claims = new List<MongoClaim>
+            {
+                new MongoClaim {
+                    Type = "Catalog",
+                    Value = "Create"
+                },
+                new MongoClaim {
+                    Type = "Catalog",
+                    Value = "Read"
+                },
+                new MongoClaim
+                {
+                    Type = "Catalog",
+                    Value = "Update"
+                },
+            }
         };
 
         var result = await _userManager.CreateAsync(appUser, user.Password);

@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using MotorcycleStore.Identity.API.Settings;
+﻿using Microsoft.AspNetCore.Identity;
+using MotorcycleStore.WebAPI.Core.Identity;
 using MS.Identity.API.Models;
 using MS.Identity.API.Settings;
-using System.Text;
 
 namespace MotorcycleStore.Identity.API.Configuration;
 
@@ -27,36 +24,8 @@ public static class IdentityConfig
         .AddDefaultTokenProviders();
 
         // JWT
-        var appSettings = appSettingSection.Get<AppSettings>();
-        var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(bearerOptions =>
-        {
-            bearerOptions.RequireHttpsMetadata = true;
-            bearerOptions.SaveToken = true;
-            bearerOptions.TokenValidationParameters = new()
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidAudience = appSettings.Audience,
-                ValidIssuer = appSettings.Issuer
-            };
-        });
+        services.AddJwtConfiguration(configuration);
 
         return services;
-    }
-
-    public static IApplicationBuilder UseIdentityConfiguration(this IApplicationBuilder app)
-    {
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-        return app;
     }
 }

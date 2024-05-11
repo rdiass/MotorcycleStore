@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MotorcycleStore.Catalog.API.Models;
 using MotorcycleStore.Catalog.API.Services;
+using static MotorcycleStore.WebAPI.Core.Identity.CustomAuthorize;
 
 namespace MotorcycleStore.Catalog.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Authorize]
+[Route("api/catalog")]
 public class MotorcycleController : ControllerBase
 {
     private readonly MotorcycleService _motorcycleService;
@@ -13,10 +16,12 @@ public class MotorcycleController : ControllerBase
     public MotorcycleController(MotorcycleService motorcycleService) =>
         _motorcycleService = motorcycleService;
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<List<Motorcycle>> Get() =>
         await _motorcycleService.GetAsync();
 
+    [ClaimsAuthorize("Catalog", "Read")]
     [HttpGet("{id:length(24)}")]
     public async Task<ActionResult<Motorcycle>> Get(string id)
     {
@@ -30,6 +35,7 @@ public class MotorcycleController : ControllerBase
         return book;
     }
 
+    [ClaimsAuthorize("Catalog", "Create")]
     [HttpPost]
     public async Task<IActionResult> Post(Motorcycle newMotorcycle)
     {
@@ -38,6 +44,7 @@ public class MotorcycleController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = newMotorcycle.Id }, newMotorcycle);
     }
 
+    [ClaimsAuthorize("Catalog", "Update")]
     [HttpPut("{id:length(24)}")]
     public async Task<IActionResult> Update(string id, Motorcycle updatedMotorcycle)
     {
@@ -55,6 +62,7 @@ public class MotorcycleController : ControllerBase
         return NoContent();
     }
 
+    [ClaimsAuthorize("Catalog", "Delete")]
     [HttpDelete("{id:length(24)}")]
     public async Task<IActionResult> Delete(string id)
     {

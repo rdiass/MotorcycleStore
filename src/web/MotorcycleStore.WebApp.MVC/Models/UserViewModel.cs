@@ -14,5 +14,5 @@ public class UserViewModel
 
     [Compare("Password", ErrorMessage = "The passwords do not match")]
     [Display(Name = "Confirm Password")]
-    public string ConfirmPassword { get; set; }
+    public string PasswordConfirmation { get; set; }
 }

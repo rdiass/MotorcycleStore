@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MotorcycleStore.Identity.API.Models;
-using MotorcycleStore.Identity.API.Settings;
+using MotorcycleStore.WebAPI.Core.Identity;
 using MS.Identity.API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

@@ -1,4 +1,6 @@
-﻿namespace MotorcycleStore.Catalog.API.Configuration;
+﻿using MotorcycleStore.WebAPI.Core.Identity;
+
+namespace MotorcycleStore.Catalog.API.Configuration;
 
 public static class ApiConfig
 {
@@ -12,7 +14,7 @@ public static class ApiConfig
     {
         app.UseHttpsRedirection();
         app.UseRouting();
-
+        app.UseAuthConfiguration();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

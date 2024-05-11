@@ -1,4 +1,4 @@
-﻿namespace MotorcycleStore.Identity.API.Settings;
+﻿namespace MotorcycleStore.WebAPI.Core.Identity;
 
 public class AppSettings
 {
