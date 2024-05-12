@@ -20,13 +20,13 @@ public class ClientCommandHandler : CommandHandler, IRequestHandler<RegisterClie
     {
         if (!message.IsValid()) return message.ValidationResult;
 
-        //var deliveryManExists = await _deliveryManRepository.GetByCnh(message.Cnh);
+        var deliveryManExists = await _deliveryManRepository.GetByCnh(message.Cnh);
 
-        //if (deliveryManExists != null)
-        //{
-        //    AddError("Delivery man already exist");
-        //    return ValidationResult;
-        //}
+        if (deliveryManExists != null)
+        {
+            AddError("Delivery man already exist");
+            return ValidationResult;
+        }
 
         try
         {

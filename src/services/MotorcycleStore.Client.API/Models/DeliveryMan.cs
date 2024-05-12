@@ -11,7 +11,7 @@ public class DeliveryMan : Entity
     public Cnh Cnh { get; set; }
     public string TypeCnh { get; set; }
     public string CnhImage { get; set; }
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     public DeliveryMan()
     {

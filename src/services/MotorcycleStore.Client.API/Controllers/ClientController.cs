@@ -29,7 +29,7 @@ public class ClientController : MainController
             "Rafael Dias Santos",
             GerarCnpj(),
             DateTime.Now.ToString(),
-            GenerateCNH(),
+            "188744668",
             "A",
             "http://image.com"));
 

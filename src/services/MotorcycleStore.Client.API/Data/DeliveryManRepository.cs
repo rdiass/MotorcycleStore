@@ -77,5 +77,5 @@ public class DeliveryManRepository : IDeliveryManRepository
     }
 
     public async Task<DeliveryMan?> GetByCnh(string cnh) =>
-        await _deliveryManDbContext.DeliveryMen.Where(x => x.Cnh.Equals(cnh)).FirstOrDefaultAsync();
+        await _deliveryManDbContext.DeliveryMen.Where(x => x.Cnh.Value.Equals(cnh)).FirstOrDefaultAsync();
 }

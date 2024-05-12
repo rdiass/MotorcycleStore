@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation.Results;
 
 namespace MotorcycleStore.WebAPI.Core.Controllers;
 
@@ -26,6 +27,16 @@ public abstract class MainController : ControllerBase
         var erros = modelState.Values.SelectMany(e => e.Errors);
 
         foreach (var erro in erros)
+        {
+            AddError(erro.ErrorMessage);
+        }
+
+        return CustomResponse();
+    }
+
+    protected ActionResult CustomResponse(ValidationResult validationResult)
+    {
+        foreach (var erro in validationResult.Errors)
         {
             AddError(erro.ErrorMessage);
         }
