@@ -1,8 +1,11 @@
-﻿namespace MotorcycleStore.WebApp.MVC.Models;
+﻿using MongoDB.Bson;
+
+namespace MotorcycleStore.WebApp.MVC.Models;
 
 public class MotorcycleViewModel
 {
-    public string? Id { get; set; }
+    public ObjectId? Id { get; set; }
+    public string IdFormated => Id?.ToString();
     public string Model { get; set; }
     public string Description { get; set; }
     public decimal Year { get; set; }

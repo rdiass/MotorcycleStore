@@ -16,7 +16,8 @@ public class MotorcycleRepository : IMotorcycleRepository
 
     public async Task<List<Motorcycle>> GetAsync()
     {
-        return await _motorcycleDbContext.Motorcycles.ToListAsync();
+        var all = await _motorcycleDbContext.Motorcycles.ToListAsync();
+        return all;
     }
 
     public async Task<Motorcycle?> GetAsync(string id)

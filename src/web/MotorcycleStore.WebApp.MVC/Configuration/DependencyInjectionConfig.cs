@@ -1,4 +1,5 @@
-﻿using MotorcycleStore.WebApp.MVC.Extensions;
+﻿using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using MotorcycleStore.WebApp.MVC.Extensions;
 using MotorcycleStore.WebApp.MVC.Services;
 using MotorcycleStore.WebApp.MVC.Services.Handlers;
 using Polly;
@@ -9,6 +10,8 @@ public static class DependencyInjectionConfig
 {
     public static void RegisterServices(this IServiceCollection services)
     {
+        services.AddSingleton<IValidationAttributeAdapterProvider, CnpjValidationAttributeAdapterProvider>();
+
         services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<IAuthenticationService, AuthenticationService>();
         

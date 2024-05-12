@@ -1,9 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MotorcycleStore.WebApp.MVC.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace MotorcycleStore.WebApp.MVC.Models;
 
 public class UserViewModel
 {
+    [Required(ErrorMessage = "The {0} field is required")]
+    public string Name { get; set; }
+
+    [Required(ErrorMessage = "The {0} field is required")]
+    [Display(Name = "CNPJ")]
+    [CnpjAttibute]
+    public string Cnpj { get; set; }
+
+    [Required(ErrorMessage = "The {0} field is required")]
+    [Display(Name = "CNH")]
+    public string Cnh { get; set; }
+
+    [Required(ErrorMessage = "The {0} field is required")]
+    [Display(Name = "CNH Type")]
+    public string CnhType { get; set; }
+
+    [Required(ErrorMessage = "The {0} field is required")]
+    [Display(Name = "Birth date")]
+    public DateTime BirthDate { get; set; }
+
     [Required(ErrorMessage = "The {0} field is required")]
     [EmailAddress(ErrorMessage = "The {0} field is in an invalid format")]
     public string Email { get; set; }

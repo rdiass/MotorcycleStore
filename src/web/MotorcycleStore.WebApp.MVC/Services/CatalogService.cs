@@ -19,8 +19,16 @@ public class CatalogService : Service, ICatalogService
         var response = await _httpClient.GetAsync("");
 
         TryError(response);
-        
-        return await response.Content.ReadFromJsonAsync<IEnumerable<MotorcycleViewModel>>();
+        try
+        {
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<MotorcycleViewModel>>();
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return null;
     }
 
     public async Task<MotorcycleViewModel> GetMotorcycleById(string id)

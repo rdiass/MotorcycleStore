@@ -1,4 +1,13 @@
 services:
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management
+    hostname: "rabbit-host"
+    labels:
+      NAME: "rabbit-motorcyclestore"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   mongo:
     image: mongo
     container_name: mongo
