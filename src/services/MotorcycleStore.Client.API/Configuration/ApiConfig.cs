@@ -1,4 +1,5 @@
-﻿using MotorcycleStore.WebAPI.Core.Identity;
+﻿using Microsoft.AspNetCore.Http.Json;
+using MotorcycleStore.WebAPI.Core.Identity;
 
 namespace MotorcycleStore.Client.API.Configuration;
 
@@ -6,7 +7,10 @@ public static class ApiConfig
 {
     public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+        });
         return services;
     }
 

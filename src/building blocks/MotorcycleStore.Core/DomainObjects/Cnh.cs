@@ -19,6 +19,6 @@ public class Cnh
         if (string.IsNullOrWhiteSpace(cnh))
             return false;
 
-        return cnh.OnlyNumbers().Length == 11;
+        return cnh.OnlyNumbers().Length == 9;
     }
 }

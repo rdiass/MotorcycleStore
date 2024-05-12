@@ -1,0 +1,32 @@
+﻿using MotorcycleStore.Core.Messages;
+
+namespace MotorcycleStore.Client.API.Application.Commands;
+
+public class RegisterClientCommand : Command
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Cnpj { get; set; }
+    public string BirthDate { get; set; }
+    public string Cnh { get; set; }
+    public string TypeCnh { get; set; }
+    public string CnhImage { get; set; }
+
+    public RegisterClientCommand(string id, string name, string cnpj, string birthDate, string cnh, string typeCnh, string cnhImage)
+    {
+        AggregateId = id;
+        Id = id;
+        Name = name;
+        Cnpj = cnpj;
+        BirthDate = birthDate;
+        Cnh = cnh;
+        TypeCnh = typeCnh;
+        CnhImage = cnhImage;
+    }
+
+    public override bool IsValid()
+    {
+        ValidationResult = new RegisterClientCommandValidation().Validate(this);
+        return ValidationResult.IsValid;
+    }
+}

@@ -5,4 +5,5 @@ namespace MotorcycleStore.Client.API.Data;
 
 public interface IDeliveryManRepository : IRepository<DeliveryMan>
 {
+    Task<DeliveryMan?> GetByCnh(string cnh);
 }

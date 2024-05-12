@@ -7,7 +7,7 @@ using static MotorcycleStore.WebAPI.Core.Identity.CustomAuthorize;
 namespace MotorcycleStore.Catalog.API.Controllers;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("api/catalog")]
 public class MotorcycleController : ControllerBase
 {
@@ -16,35 +16,32 @@ public class MotorcycleController : ControllerBase
     public MotorcycleController(MotorcycleService motorcycleService) =>
         _motorcycleService = motorcycleService;
 
-    [AllowAnonymous]
+    //[AllowAnonymous]
     [HttpGet]
     public async Task<List<Motorcycle>> Get() =>
         await _motorcycleService.GetAsync();
 
-    [ClaimsAuthorize("Catalog", "Read")]
     [HttpGet("{id:length(24)}")]
     public async Task<ActionResult<Motorcycle>> Get(string id)
     {
-        var book = await _motorcycleService.GetAsync(id);
+        var motorcycle = await _motorcycleService.GetAsync(id);
 
-        if (book is null)
+        if (motorcycle is null)
         {
             return NotFound();
         }
 
-        return book;
+        return motorcycle;
     }
 
-    [ClaimsAuthorize("Catalog", "Create")]
     [HttpPost]
     public async Task<IActionResult> Post(Motorcycle newMotorcycle)
     {
-        await _motorcycleService.CreateAsync(newMotorcycle);
+        var response = await _motorcycleService.CreateAsync(newMotorcycle);
 
-        return CreatedAtAction(nameof(Get), new { id = newMotorcycle.Id }, newMotorcycle);
+        return CreatedAtAction(nameof(Get), new { id = response.Id }, response);
     }
 
-    [ClaimsAuthorize("Catalog", "Update")]
     [HttpPut("{id:length(24)}")]
     public async Task<IActionResult> Update(string id, Motorcycle updatedMotorcycle)
     {
@@ -62,7 +59,6 @@ public class MotorcycleController : ControllerBase
         return NoContent();
     }
 
-    [ClaimsAuthorize("Catalog", "Delete")]
     [HttpDelete("{id:length(24)}")]
     public async Task<IActionResult> Delete(string id)
     {

@@ -1,39 +1,78 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MotorcycleStore.Catalog.API.Models;
-using MotorcycleStore.Catalog.Settings;
 
 namespace MotorcycleStore.Catalog.API.Data;
 
 public class MotorcycleRepository : IMotorcycleRepository
 {
-    private readonly IMongoCollection<Motorcycle> _motorcyclesCollection;
+    private readonly MotorcycleDbContext _motorcycleDbContext;
 
-    public MotorcycleRepository(
-        IOptions<CatalogDatabaseSettings> catalogDatabaseSettings)
+    public MotorcycleRepository(MotorcycleDbContext motorcycleDbContext)
     {
-        var mongoClient = new MongoClient(
-            catalogDatabaseSettings.Value.ConnectionString);
-
-        var mongoDatabase = mongoClient.GetDatabase(
-            catalogDatabaseSettings.Value.DatabaseName);
-
-        _motorcyclesCollection = mongoDatabase.GetCollection<Motorcycle>(
-            catalogDatabaseSettings.Value.MotorcyclesCollectionName);
+        _motorcycleDbContext = motorcycleDbContext;
     }
 
-    public async Task<List<Motorcycle>> GetAsync() =>
-        await _motorcyclesCollection.Find(_ => true).ToListAsync();
+    public async Task<List<Motorcycle>> GetAsync()
+    {
+        return await _motorcycleDbContext.Motorcycles.ToListAsync();
+    }
 
-    public async Task<Motorcycle?> GetAsync(string id) =>
-        await _motorcyclesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+    public async Task<Motorcycle?> GetAsync(string id)
+    {
+        var test = await _motorcycleDbContext.Motorcycles.Where(x => x.Id == new ObjectId(id)).FirstOrDefaultAsync();
+        return test;
+    }
 
-    public async Task CreateAsync(Motorcycle newBook) =>
-        await _motorcyclesCollection.InsertOneAsync(newBook);
+    public async Task<Motorcycle> CreateAsync(Motorcycle newMotorcycle)
+    {
+        newMotorcycle.Id = ObjectId.GenerateNewId();
+        var response = _motorcycleDbContext.Motorcycles.Add(newMotorcycle);
 
-    public async Task UpdateAsync(string id, Motorcycle updatedMotorcycle) =>
-        await _motorcyclesCollection.ReplaceOneAsync(x => x.Id == id, updatedMotorcycle);
+        _motorcycleDbContext.ChangeTracker.DetectChanges();
+        Console.WriteLine(_motorcycleDbContext.ChangeTracker.DebugView.LongView);
 
-    public async Task RemoveAsync(string id) =>
-        await _motorcyclesCollection.DeleteOneAsync(x => x.Id == id);
+        _motorcycleDbContext.SaveChanges();
+
+        return response.Entity;
+    }
+
+    public async Task UpdateAsync(string id, Motorcycle updatedMotorcycle)
+    {
+        var motorcycleToUpdate = _motorcycleDbContext.Motorcycles.FirstOrDefault(c => c.Id == new ObjectId(id));
+
+        if (motorcycleToUpdate != null)
+        {
+            //motorcycleToUpdate.Model = updatedMotorcycle.Model;
+
+            _motorcycleDbContext.Motorcycles.Update(motorcycleToUpdate);
+
+            _motorcycleDbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_motorcycleDbContext.ChangeTracker.DebugView.LongView);
+
+            _motorcycleDbContext.SaveChanges();
+
+        }
+        else
+        {
+            throw new ArgumentException("The motorcyle to update cannot be found. ");
+        }
+    }
+
+    public async Task RemoveAsync(string id){
+        var motorcycleToDelete = _motorcycleDbContext.Motorcycles.FirstOrDefault(c => c.Id == new ObjectId(id));
+
+        if (motorcycleToDelete != null)
+        {
+            _motorcycleDbContext.Motorcycles.Remove(motorcycleToDelete);
+            _motorcycleDbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_motorcycleDbContext.ChangeTracker.DebugView.LongView);
+            _motorcycleDbContext.SaveChanges();
+        }
+        else
+        {
+            throw new ArgumentException("The motorcycle to delete cannot be found.");
+        }
+    }
 }

@@ -1,11 +1,10 @@
 ﻿using AspNetCore.Identity.MongoDbCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MotorcycleStore.Identity.API.Controllers;
 using MotorcycleStore.Identity.API.Helpers;
 using MotorcycleStore.Identity.API.Models;
+using MotorcycleStore.WebAPI.Core.Controllers;
 using MS.Identity.API.Models;
-using System.Security.Claims;
 
 namespace MS.Identity.API.Controllers;
 

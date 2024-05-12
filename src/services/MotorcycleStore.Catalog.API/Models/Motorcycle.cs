@@ -4,6 +4,7 @@ namespace MotorcycleStore.Catalog.API.Models;
 
 public class Motorcycle : Entity
 {
+    public string IdFormated => Id.ToString();
     public string Model { get; set; }
     public decimal Year { get; set; }    
     public string Plate { get; set; }

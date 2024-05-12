@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc;
 
-namespace MotorcycleStore.Identity.API.Controllers;
+namespace MotorcycleStore.WebAPI.Core.Controllers;
 
 [ApiController]
-public abstract class MainController : Controller
+public abstract class MainController : ControllerBase
 {
     protected ICollection<string> Errors = [];
 
     protected ActionResult CustomResponse(object? result = null)
     {
-        if(ValidOperation())
+        if (ValidOperation())
         {
             return Ok(result);
         }
@@ -24,7 +24,7 @@ public abstract class MainController : Controller
     protected ActionResult CustomResponse(ModelStateDictionary modelState)
     {
         var erros = modelState.Values.SelectMany(e => e.Errors);
-        
+
         foreach (var erro in erros)
         {
             AddError(erro.ErrorMessage);

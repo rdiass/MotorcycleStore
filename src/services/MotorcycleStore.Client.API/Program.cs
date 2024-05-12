@@ -8,7 +8,7 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddMongoDbConfig(builder.Configuration);
 builder.Services.AddSwaggerConfiguration();
 builder.Services.RegisterServices();
-
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 // Add services to the container.
 var app = builder.Build();
 

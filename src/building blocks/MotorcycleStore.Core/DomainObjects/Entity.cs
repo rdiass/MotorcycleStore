@@ -1,13 +1,32 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MotorcycleStore.Core.Messages;
 
 namespace MotorcycleStore.Core.DomainObjects;
 
 public abstract class Entity
 {
     [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string? Id { get; set; }
+    public ObjectId? Id { get; set; }
+
+    private List<Event> _domainEvents;
+    public IReadOnlyCollection<Event> DomainEvents => _domainEvents?.AsReadOnly();
+
+    public void AddDomainEvent(Event eventItem)
+    {
+        _domainEvents = _domainEvents ?? new List<Event>();
+        _domainEvents.Add(eventItem);
+    }
+
+    public void RemoveDomainEvent(Event eventItem)
+    {
+        _domainEvents?.Remove(eventItem);
+    }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents?.Clear();
+    }
 
     public override bool Equals(object obj)
     {

@@ -1,4 +1,5 @@
-﻿using MotorcycleStore.Catalog.API.Data;
+﻿using MongoDB.Bson;
+using MotorcycleStore.Catalog.API.Data;
 using MotorcycleStore.Catalog.API.Models;
 
 namespace MotorcycleStore.Catalog.API.Services;
@@ -19,7 +20,7 @@ public class MotorcycleService
     public async Task<Motorcycle?> GetAsync(string id) =>
         await _motorcycleRepository.GetAsync(id);
 
-    public async Task CreateAsync(Motorcycle newBook) =>
+    public async Task<Motorcycle> CreateAsync(Motorcycle newBook) =>
         await _motorcycleRepository.CreateAsync(newBook);
 
     public async Task UpdateAsync(string id, Motorcycle updatedMotorcycle) =>
