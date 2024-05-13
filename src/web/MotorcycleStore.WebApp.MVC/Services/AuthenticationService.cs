@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MotorcycleStore.WebAPI.Core.Models;
 using MotorcycleStore.WebApp.MVC.Extensions;
 using MotorcycleStore.WebApp.MVC.Models;
 

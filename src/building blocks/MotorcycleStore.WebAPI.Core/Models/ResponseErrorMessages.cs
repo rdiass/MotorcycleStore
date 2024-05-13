@@ -1,4 +1,4 @@
-﻿namespace MotorcycleStore.WebApp.MVC.Models;
+﻿namespace MotorcycleStore.WebAPI.Core.Models;
 
 public class ResponseErrorMessages
 {

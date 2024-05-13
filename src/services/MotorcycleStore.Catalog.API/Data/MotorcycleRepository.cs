@@ -1,17 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MotorcycleStore.Catalog.API.Extensions;
 using MotorcycleStore.Catalog.API.Models;
+using MotorcycleStore.Core.Mediator;
 
 namespace MotorcycleStore.Catalog.API.Data;
 
 public class MotorcycleRepository : IMotorcycleRepository
 {
     private readonly MotorcycleDbContext _motorcycleDbContext;
+    private readonly IMediatorHandler _mediatorHandler;
 
-    public MotorcycleRepository(MotorcycleDbContext motorcycleDbContext)
+    public MotorcycleRepository(MotorcycleDbContext motorcycleDbContext, IMediatorHandler mediatorHandler)
     {
         _motorcycleDbContext = motorcycleDbContext;
+        _mediatorHandler = mediatorHandler;
     }
 
     public async Task<List<Motorcycle>> GetAsync()
@@ -35,6 +39,8 @@ public class MotorcycleRepository : IMotorcycleRepository
         Console.WriteLine(_motorcycleDbContext.ChangeTracker.DebugView.LongView);
 
         _motorcycleDbContext.SaveChanges();
+
+        await _mediatorHandler.PublishEvents(response.Entity);
 
         return response.Entity;
     }

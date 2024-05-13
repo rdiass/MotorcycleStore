@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation.Results;
+using MotorcycleStore.WebAPI.Core.Models;
 
 namespace MotorcycleStore.WebAPI.Core.Controllers;
 
 [ApiController]
-public abstract class MainController : ControllerBase
+public abstract class MainController : Controller
 {
     protected ICollection<string> Errors = [];
 
@@ -57,5 +58,18 @@ public abstract class MainController : ControllerBase
     protected void ClearErrors()
     {
         Errors.Clear();
+    }
+    protected bool ResponseHasErrors(ResponseResult response)
+    {
+        if (response != null && response.Errors.Messages.Count != 0)
+        {
+            foreach (var error in response.Errors.Messages)
+            {
+                ModelState.AddModelError(string.Empty, error);
+            }
+            return true;
+        }
+
+        return false;
     }
 }

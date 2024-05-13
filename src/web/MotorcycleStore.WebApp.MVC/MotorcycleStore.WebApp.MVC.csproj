@@ -61,6 +61,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\building blocks\MotorcycleStore.Core\MotorcycleStore.Core.csproj" />
+    <ProjectReference Include="..\..\building blocks\MotorcycleStore.MessaBus\MotorcycleStore.MessaBus.csproj" />
+    <ProjectReference Include="..\..\building blocks\MotorcycleStore.WebAPI.Core\MotorcycleStore.WebAPI.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

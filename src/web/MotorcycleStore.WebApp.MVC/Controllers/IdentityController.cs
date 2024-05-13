@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using MotorcycleStore.WebApp.MVC.Extensions;
+using MotorcycleStore.WebAPI.Core.Controllers;
 using MotorcycleStore.WebApp.MVC.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;

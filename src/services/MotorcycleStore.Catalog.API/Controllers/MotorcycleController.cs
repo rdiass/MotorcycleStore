@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MotorcycleStore.Catalog.API.Models;
 using MotorcycleStore.Catalog.API.Services;
-using static MotorcycleStore.WebAPI.Core.Identity.CustomAuthorize;
 
 namespace MotorcycleStore.Catalog.API.Controllers;
 
